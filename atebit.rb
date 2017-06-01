@@ -54,6 +54,7 @@ class Oscillator
     when :saw then 2.0*@phase - 1.0
     when :square then (@phase > 0.5 ? 1.0 : -1.0)
     when :sine then Math.sin(2.0 * Math::PI * @phase)
+    when :noise then 2.0*rand - 1.0
     else fail "Unrecognised wave type: #{wave_type.inspect}"
     end
   end
