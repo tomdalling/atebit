@@ -1,1 +1,2 @@
-output.wav
+tmp/output.wav
+config/deploy/production.rb
