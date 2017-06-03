@@ -1,15 +1,10 @@
 ! bpm 260
-! type sine
-! volume 50
+! volume 80
 
+! type sine
 c e g c e g c e g c e g c e g -
 ! type square
 e g b5 e g b5 e g b5 e g b5 e g b5 -
 ! type saw
 g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
 g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
-
-#c e g c e g c e g c e g c e g -
-#e g b5 e g b5 e g b5 e g b5 e g b5 -
-#g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
-#g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
