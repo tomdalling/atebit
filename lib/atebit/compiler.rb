@@ -40,42 +40,60 @@ class Compiler
   end
 
   def parse_directive(line)
-    var, value = line[1..-1].split.map(&:strip)
-    case var && var.downcase
-    when 'volume' then volume_directive(value)
-    when 'bpm' then bpm_directive(value)
-    when 'type' then type_directive(value)
+    directive, *args = line[1..-1].split.map(&:strip)
+    case directive && directive.downcase
+    when 'volume' then volume_directive(args)
+    when 'bpm' then bpm_directive(args)
+    when 'type' then type_directive(args)
+    when 'slide' then slide_directive(args)
     else fail!("Unrecognised directive: #{line}")
     end
   end
 
-  def volume_directive(new_volume)
-    @volume = Float(new_volume) / 100.0
+  def volume_directive(args)
+    fail!("Invalid !volume arguments: #{args.join(' ')}") if args.size != 1
+
+    @volume = Float(args.first) / 100.0
     []
   rescue ArgumentError, TypeError
     fail!("Not a valid volume: #{new_volume}")
   end
 
-  def bpm_directive(new_bpm)
-    @bpm = Float(new_bpm)
+  def bpm_directive(args)
+    fail!("Invalid !bpm arguments: #{args.join(' ')}") if args.size != 1
+
+    @bpm = Float(args.first)
     []
   rescue ArgumentError, TypeError
     fail!("Not a valid BPM: #{new_bpm}")
   end
 
   VALID_WAVE_TYPES = ['sine', 'square', 'saw', 'noise']
-  def type_directive(new_type)
-    if VALID_WAVE_TYPES.include?(new_type)
-      [Instr[:set_type, new_type.to_sym]]
+  def type_directive(args)
+    fail!("Invalid !type arguments: #{args.join(' ')}") if args.size != 1
+
+    if VALID_WAVE_TYPES.include?(args.first)
+      [Instr[:set_type, args.first.to_sym]]
     else
       fail!("Invalid wave type: #{new_type}")
     end
+  end
+
+  def slide_directive(args)
+    unless args.size == 2 && args.first.downcase == 'pitch'
+      fail!("Invalid slide args: #{args.join(' ')}")
+    end
+
+    [Instr[:set_freq_slide, Float(args.last)]]
+  rescue ArgumentError, TypeError
+    fail!("Not a valid slide amount: #{args.last}")
   end
 
   def parse_notes(line)
     line.split.flat_map do |note|
       case note
       when '-' then rest_instrs
+      when '>' then repeat_instrs
       else note_instrs(note)
       end
     end
@@ -83,6 +101,10 @@ class Compiler
 
   def rest_instrs
     set_vol(0) + [gen_16th]
+  end
+
+  def repeat_instrs
+    [gen_16th]
   end
 
   def note_instrs(note)
@@ -112,13 +134,7 @@ class Compiler
 
   def set_freq(new_freq)
     new_freq = Float(new_freq)
-
-    if new_freq != @last_frequency
-      @last_frequency = new_freq
-      Array[Instr[:set_freq, new_freq]]
-    else
-      []
-    end
+    Array[Instr[:set_freq, new_freq]]
   end
 
   def seconds_per_16th

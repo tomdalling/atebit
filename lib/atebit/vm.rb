@@ -20,6 +20,7 @@ class VM
     when :set_type then oscillator.wave_type = instr.args
     when :set_freq then oscillator.frequency = instr.args
     when :set_vol then oscillator.amplitude = instr.args
+    when :set_freq_slide then oscillator.frequency_slide = instr.args/oscillator.sample_rate
     when :gen_samples then generate_samples(instr.args)
     end
 

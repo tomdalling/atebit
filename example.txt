@@ -1,10 +1,18 @@
 ! bpm 260
-! volume 80
+! volume 60
 
-! type sine
-c e g c e g c e g c e g c e g -
+! slide pitch 0
 ! type square
-e g b5 e g b5 e g b5 e g b5 e g b5 -
+c4 > e4 > g4 > e4 > c4 > e4 > g4 > e4 >
+e4 > g4 > b5 > g4 > e4 > g4 > b5 > g4 >
+c4 > e4 > g4 > e4 > c4 > e4 > g4 > e4 >
+e4 > g4 > b5 > g4 > e4 > g4 > b5 > g4 >
+
 ! type saw
-g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
-g b5 d5 g b5 d5 g b5 d5 g b5 d5 g b5 d5 -
+! slide pitch -800
+g4 > >  > > > > > b5 > > > > > > >
+g4 > g4 > > > > > b5 > > > > > > >
+g4 > g4 > > > > > b5 > > > > > > >
+g4 > >  > > > > >
+! slide pitch 800
+c4 > > > > > > >

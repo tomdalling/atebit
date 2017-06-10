@@ -1,6 +1,6 @@
 class Oscillator
   attr_reader :sample_rate
-  attr_accessor :frequency, :amplitude, :wave_type
+  attr_accessor :frequency, :amplitude, :wave_type, :frequency_slide
 
   def initialize
     @frequency = 261.6 # C4
@@ -8,6 +8,7 @@ class Oscillator
     @phase = 0.0
     @sample_rate = 44100 #hz
     @wave_type = :square
+    @frequency_slide = 0.0 #hz/sample
   end
 
   def generate(num_samples)
@@ -17,6 +18,8 @@ class Oscillator
   end
 
   def step
+    @frequency += @frequency_slide
+
     secs = 1.0/sample_rate
     period = 1.0/frequency
 
